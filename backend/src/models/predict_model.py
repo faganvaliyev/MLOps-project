@@ -10,7 +10,7 @@ from typing import Iterable, Optional
 import pandas as pd
 
 # Root of the repo (two levels up from this file)
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 
 def load_model(filepath: str):
@@ -55,11 +55,11 @@ def main(
         X_test = _load_dataframe_from_bytes(file_content, filename)
     else:
         # Fallback path for local testing
-        X_test_path = os.path.join(ROOT_DIR, "data", "external", "dm_office_sales_X_test.xlsx")
+        X_test_path = os.path.join(BASE_DIR, "data", "external", "dm_office_sales_X_test.xlsx")
         X_test = pd.read_excel(X_test_path)
 
     # Load model and predict
-    model_path = os.path.join(ROOT_DIR, "models", "dm_office_sales_linreg.pkl.gz")
+    model_path = os.path.join(BASE_DIR, "models", "dm_office_sales_linreg.pkl.gz")
     loaded_model = load_model(model_path)
     y_pred = loaded_model.predict(X_test)
 
