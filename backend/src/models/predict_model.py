@@ -9,7 +9,6 @@ from typing import Iterable, Optional
 
 import pandas as pd
 
-# Root of the repo (two levels up from this file)
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 
@@ -36,9 +35,8 @@ def _load_dataframe_from_bytes(
     if name.endswith(".csv"):
         df = pd.read_csv(buffer)
     elif name.endswith(".xlsx") or name.endswith(".xls"):
-        df = pd.read_excel(buffer)
+        df = pd.read_excel(buffer, engine="openpyxl")
     else:
-        # Fall back to Excel; FastAPI already validated extensions, this is just a guard.
         df = pd.read_excel(buffer)
     return df
 
@@ -50,15 +48,12 @@ def main(
     Accepts raw file bytes and an optional filename to parse CSV/Excel,
     loads the trained model, and returns predictions.
     """
-    # Load input features
     if file_content:
         X_test = _load_dataframe_from_bytes(file_content, filename)
     else:
-        # Fallback path for local testing
         X_test_path = os.path.join(BASE_DIR, "data", "external", "X_test.csv")
-        X_test = pd.read_excel(X_test_path)
+        X_test = pd.read_csv(X_test_path)
 
-    # Load model and predict
     model_path = os.path.join(BASE_DIR, "models", "dm_office_sales_linreg.pkl.gz")
     loaded_model = load_model(model_path)
     y_pred = loaded_model.predict(X_test)
@@ -70,7 +65,6 @@ def main(
 
 
 if __name__ == "__main__":
-    # Quick manual test (reads default X_test.xlsx)
     preds = main()
     print(f"Generated {len(preds)} predictions")
-    print(preds[:10])  # Print first 10 predictions for quick check
+    print(preds[:10])  

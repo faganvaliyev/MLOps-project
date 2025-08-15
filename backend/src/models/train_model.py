@@ -71,14 +71,12 @@ def main():
     # Train model
     model.fit(X_train, y_train)
 
-    # Evaluate before saving
     y_pred = model.predict(X_test)
     mae = mean_absolute_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
     print(f"Test MAE (before save): {mae:.3f}")
     print(f"Test R2 Score (before save): {r2:.3f}")
 
-    # Sample of test and actual values
     x = range(len(y_test))
     plt.scatter(x[:10], y_test[:10], color='blue', label='Actual')
     plt.scatter(x[:10], y_pred[:10], color='red', label='Predicted')
@@ -88,7 +86,6 @@ def main():
     plt.legend()
     plt.show()
 
-    # Serialize (save) the trained pipeline
     model_path = "dm_office_sales_linreg.pkl.gz"
     save_model(model_path, model)
     print(f"Model saved to: {model_path}")
