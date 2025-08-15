@@ -1,5 +1,4 @@
 import warnings
-
 warnings.filterwarnings("ignore")
 
 import gzip
@@ -20,8 +19,8 @@ def load_model(filepath: str):
     """
     with gzip.open(filepath, "rb") as f:
         p = pickle.Unpickler(f)
-        clf = p.load()
-    return clf
+        model = p.load()
+    return model
 
 
 def _load_dataframe_from_bytes(
@@ -56,11 +55,11 @@ def main(
         X_test = _load_dataframe_from_bytes(file_content, filename)
     else:
         # Fallback path for local testing
-        X_test_path = os.path.join(ROOT_DIR, "data", "external", "X_test.xlsx")
+        X_test_path = os.path.join(ROOT_DIR, "data", "external", "dm_office_sales_X_test.xlsx")
         X_test = pd.read_excel(X_test_path)
 
     # Load model and predict
-    model_path = os.path.join(ROOT_DIR, "models", "titanic_rf.pkl.gz")
+    model_path = os.path.join(ROOT_DIR, "models", "dm_office_sales_linreg.pkl.gz")
     loaded_model = load_model(model_path)
     y_pred = loaded_model.predict(X_test)
 
@@ -74,3 +73,4 @@ if __name__ == "__main__":
     # Quick manual test (reads default X_test.xlsx)
     preds = main()
     print(f"Generated {len(preds)} predictions")
+    print(preds[:10])  # Print first 10 predictions for quick check

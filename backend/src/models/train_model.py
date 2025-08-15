@@ -1,5 +1,4 @@
 import warnings
-
 warnings.filterwarnings("ignore")
 
 import gzip
@@ -8,22 +7,24 @@ import pickle
 import pickletools
 
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.compose import ColumnTransformer
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.impute import SimpleImputer
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import StandardScaler
+from category_encoders.cat_boost import CatBoostEncoder
 
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 
 def save_model(filename: str, model: object):
     """
     Function saves model into pickle object.
     """
-    file_path = os.path.join(ROOT_DIR, "models", filename)
+    file_path = os.path.join(BASE_DIR, "models", filename)
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with gzip.open(file_path, "wb") as f:
         pickled = pickle.dumps(model)
         optimized_pickle = pickletools.optimize(pickled)
@@ -31,34 +32,28 @@ def save_model(filename: str, model: object):
 
 
 def main():
-    file_path = os.path.join(ROOT_DIR, "data", "processed", "Titanic-Dataset.csv")
+    file_path = os.path.join(BASE_DIR, "data", "processed", "dm_office_sales.csv")
     df = pd.read_csv(file_path)
-    features = ["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked"]
-    target = "Survived"
 
-    df = df[features + [target]].copy()
-    X = df[features]
+    features = ['training level', 'work experience', 'salary', 'level of education', 'division']
+    target = 'sales'
 
-    y = df[target].astype(int)
+    X = df[features].drop(target, axis=1, errors='ignore')
+    y = df[target].copy()
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.25, random_state=42, stratify=y
+        X, y, test_size=0.2, random_state=42
     )
 
-    numeric_features = ["Age", "SibSp", "Parch", "Fare"]
-    categorical_features = ["Pclass", "Sex", "Embarked"]
+    numeric_features = ['training level', 'work experience', 'salary']
+    categorical_features = ['level of education', 'division']
 
     numeric_transformer = Pipeline(
-        steps=[
-            ("imputer", SimpleImputer(strategy="median")),
-        ]
+        steps=[("scale", StandardScaler())]
     )
 
     categorical_transformer = Pipeline(
-        steps=[
-            ("imputer", SimpleImputer(strategy="most_frequent")),
-            ("onehot", OneHotEncoder(handle_unknown="ignore")),
-        ]
+        steps=[("encode", CatBoostEncoder())]
     )
 
     preprocess = ColumnTransformer(
@@ -68,23 +63,32 @@ def main():
         ]
     )
 
-    rf = RandomForestClassifier(
-        n_estimators=200, max_depth=None, random_state=42, n_jobs=-1
-    )
+    lin_reg = LinearRegression()
 
-    model = Pipeline(steps=[("preprocess", preprocess), ("rf", rf)])
+    model = Pipeline(steps=[("preprocess", preprocess), ("linear_reg", lin_reg)])
 
     # Train model
     model.fit(X_train, y_train)
 
     # Evaluate before saving
     y_pred = model.predict(X_test)
-    acc = accuracy_score(y_test, y_pred)
-    print(f"Test accuracy (before save): {acc:.3f}")
-    print(classification_report(y_test, y_pred))
+    mae = mean_absolute_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+    print(f"Test MAE (before save): {mae:.3f}")
+    print(f"Test R2 Score (before save): {r2:.3f}")
+
+    # Sample of test and actual values
+    x = range(len(y_test))
+    plt.scatter(x[:10], y_test[:10], color='blue', label='Actual')
+    plt.scatter(x[:10], y_pred[:10], color='red', label='Predicted')
+    plt.xlabel('Sample Index')
+    plt.ylabel('Target Value')
+    plt.title('Actual vs Predicted')
+    plt.legend()
+    plt.show()
 
     # Serialize (save) the trained pipeline
-    model_path = "titanic_rf.pkl.gz"
+    model_path = "dm_office_sales_linreg.pkl.gz"
     save_model(model_path, model)
     print(f"Model saved to: {model_path}")
 
