@@ -6,7 +6,9 @@ readme = "README.md"
 requires-python = ">= 3.12"
 authors = [{ name = "Fagan", email = "faganvaliyev@gmail.com" }]
 dependencies = [
+    "category-encoders>=2.8.1",
     "fastapi>=0.116.1",
+    "matplotlib>=3.10.5",
     "openpyxl>=3.1.5",
     # runtime deps go here, e.g. "pandas>=2.2"
     "pandas>=2.3.1",
