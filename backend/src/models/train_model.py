@@ -25,6 +25,7 @@ def save_model(filename: str, model: object):
     """
     file_path = os.path.join(BASE_DIR, "models", filename)
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    print(f"Saving model to full path: {file_path}")
     with gzip.open(file_path, "wb") as f:
         pickled = pickle.dumps(model)
         optimized_pickle = pickletools.optimize(pickled)

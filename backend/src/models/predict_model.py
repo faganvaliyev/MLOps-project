@@ -55,7 +55,7 @@ def main(
         X_test = _load_dataframe_from_bytes(file_content, filename)
     else:
         # Fallback path for local testing
-        X_test_path = os.path.join(BASE_DIR, "data", "external", "dm_office_sales_X_test.xlsx")
+        X_test_path = os.path.join(BASE_DIR, "data", "external", "X_test.csv")
         X_test = pd.read_excel(X_test_path)
 
     # Load model and predict
