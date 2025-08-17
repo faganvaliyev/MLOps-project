@@ -13,7 +13,7 @@ RUN apt-get update -y && \
 WORKDIR /app
 
 # Copy only backend code
-COPY . .
+COPY backend/ .
 
 # Install Python dependencies
 RUN uv sync --no-dev
@@ -26,4 +26,4 @@ ENV PYTHONUNBUFFERED=1 \
 EXPOSE 8501
 
 # Run streamlit application 
-CMD ["uv", "run", "streamlit", "run", "streamlit_app/app.py"]
+CMD ["uv", "run", "streamlit", "run", "app.py"]

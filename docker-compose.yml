@@ -26,7 +26,7 @@ services:
     image: frontend
     container_name: frontend
     volumes:
-      - ./frontend/streamlit_app:/app
+      - ./frontend:/app
       - frontend_venv:/app/.venv
     ports:
       - "8501:8501"
