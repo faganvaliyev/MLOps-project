@@ -1,4 +1,4 @@
-# MLOps Example
+# MLOps-project
 
 ![Build Status](https://github.com/Elkhn/MLOps_example/actions/workflows/ci-build.yaml/badge.svg)
 
@@ -95,4 +95,4 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](https:
 
 *This is a educational example project demonstrating MLOps best practices. For production use, consider additional security, monitoring, and scalability measures.*
 
-**Made with ❤️ for DataMinds'25 students**
+**Made for DataMinds'25 bootcamp**
