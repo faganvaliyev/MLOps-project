@@ -9,7 +9,7 @@
 
 ## Overview of the Project
 
-This repository demonstrates a simple MLOps pipeline example created for the DataMinds bootcamp. It showcases how to build, dockerize, and deploy a machine learning application with service communication, along with implementing CI/CD workflows using GitHub Actions and self-hosted runners.
+This repository demonstrates a complete MLOps project developed for the DM Office Sales use-case. It showcases how to build, dockerize, and deploy a machine learning application using a FastAPI backend and a Streamlit frontend, with service-to-service communication and support for CI/CD workflows (e.g. via GitHub Actions / Docker Compose).
 
 ## Architecture
 
