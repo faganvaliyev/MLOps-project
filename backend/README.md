@@ -1,4 +1,4 @@
-# DataMinds'25 ML Predictor - Backend API
+# 💼 DataMinds'25 DM Office Sales Predictor - Backend API
 
 🚀 A high-performance FastAPI backend service for machine learning predictions with async file processing and comprehensive error handling.
 
@@ -147,8 +147,8 @@ Returns system status and timezone information.
 ```json
 {
   "status": "healthy",
-  "utc_time": "2024-08-14T10:30:00.000000+00:00",
-  "baku_time": "2024-08-14T14:30:00.000000+04:00"
+  "utc_time": "2025-08-14T10:30:00.000000+00:00",
+  "baku_time": "2025-08-14T14:30:00.000000+04:00"
 }
 ```
 
@@ -169,9 +169,9 @@ Upload a file and receive ML predictions.
   "status": "success",
   "message": "Predictions generated successfully",
   "data": {
-    "predictions": [0.85, 0.92, 0.78, 0.91],
-    "num_predictions": 4,
-    "processing_time_seconds": 0.234
+    "predictions": [123621, 334823, 321344, ...],
+    "num_predictions": 200,
+    "processing_time_seconds": 0.23
   }
 }
 ```
