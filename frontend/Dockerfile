@@ -26,4 +26,4 @@ ENV PYTHONUNBUFFERED=1 \
 EXPOSE 8501
 
 # Run streamlit application 
-CMD ["uv", "run", "streamlit", "run", "app.py"]
+CMD ["uv", "run", "streamlit", "run", "streamlit_app/app.py"]
