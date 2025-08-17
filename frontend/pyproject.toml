@@ -8,6 +8,7 @@ authors = [{ name = "Fagan", email = "faganvaliyev@gmail.com" }]
 dependencies = [
     "openpyxl>=3.1.5",
     "pandas>=2.3.1",
+    "plotly>=6.3.0",
     "streamlit>=1.48.1",
 ]
 
