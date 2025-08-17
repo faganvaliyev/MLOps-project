@@ -1,18 +1,23 @@
-# DataMinds'25 ML Predictor - Frontend
+# 💼 DataMinds'25 DM Office Sales Predictor - Frontend
 
-🤖 A modern, user-friendly Streamlit application for making machine learning predictions with an intuitive drag-and-drop interface.
+
+A modern, user-friendly **Streamlit** application for making **machine learning predictions** with an intuitive drag-and-drop interface.
+
 
 ## 🌟 Features
 
-- **📁 Easy File Upload**: Support for CSV, Excel (.xlsx, .xls) file formats
-- **👀 Data Preview**: Interactive data visualization and statistical summaries
-- **🚀 Real-time Predictions**: Lightning-fast ML predictions via backend API
-- **📊 Results Visualization**: Comprehensive prediction results display
-- **📥 Export Functionality**: Download predictions as CSV files
-- **📱 Responsive Design**: Works seamlessly across different screen sizes
-- **⚡ Session Management**: Persistent file handling across interactions
+
+- **📁 Easy File Upload**: Supports CSV, Excel (.xlsx, .xls) files  
+- **👀 Data Preview**: Interactive preview and statistics  
+- **🔮 Batch Predictions**: Generate predictions for uploaded datasets  
+- **🖊️ Single Prediction**: Input feature values manually for a single prediction  
+- **📊 Results Visualization**: Display predictions in tables and metrics  
+- **📥 Export Functionality**: Download predictions as CSV  
+- **⚡ Session Management**: Persistent file handling across interactions  
+
 
 ## 🛠️ Technology Stack
+
 
 - **Frontend Framework**: Streamlit
 - **Data Processing**: Pandas
@@ -40,9 +45,11 @@ Dependencies are managed using **UV** for faster, more reliable installations:
 # pyproject.toml
 [project]
 dependencies = [
-    "streamlit>=1.28.0",
-    "pandas>=1.5.0", 
-    "requests>=2.28.0"
+    "openpyxl>=3.1.5",
+    "streamlit>=1.48.1",
+    "pandas>=2.3.1", 
+    "requests>=2.28.0",
+    "plotly>=6.3.0"
 ]
 ```
 
@@ -92,17 +99,27 @@ uv sync
 uv run streamlit run app.py
 ```
 
-## 🏗️ Architecture
+## 🏗️ Project Structure
 
 ### Application Structure
 
 ```
-├── app.py                 # Main Streamlit application
-├── Dockerfile            # Container build instructions
-├── pyproject.toml        # UV project configuration & dependencies
-├── uv.lock              # Locked dependency versions
-├── docker-compose.yml   # Multi-service orchestration (if standalone)
-└── README.md            # This file
+frontend/
+├── streamlit_app/
+│   │
+│   ├─ app.py                     # Main entry point
+│   ├─ config.py                  # Configs like API URL, constants
+│   ├─ utils.py                   # Helper functions (file upload, API calls, etc.)
+│   └─ tabs/
+│       ├─ dataset_tab.py         # Dataset preview tab
+│       ├─ batch_tab.py           # Batch prediction tab
+│       ├─ single_tab.py          # Single input prediction tab
+│       └─ visualizations_tab.py  # Visualizations tab
+├── Dockerfile             # Container build instructions
+├── pyproject.toml         # UV dependencies
+├── uv.lock                # Locked dependency versions
+└── README.md              # Documentation
+
 ```
 
 ### Key Components
@@ -179,7 +196,7 @@ api_url = "http://backend:8000/predict"
 - **Data Preview**: Inspect your data structure
 - **Statistics**: Optional statistical summary
 
-### Step 3: Generate Predictions
+### Step 3: Generate Predictions (batch or single) and plot visuals
 
 1. Click the "🚀 Generate Predictions" button
 2. Wait for backend processing
@@ -199,11 +216,11 @@ Your input data should be structured with:
 
 ### Example Format
 
-| Feature_1 | Feature_2 | Feature_3 | Category |
+| Feature_1 | Feature_2 | Feature_3 |  target  |
 |-----------|-----------|-----------|----------|
-| 1.2       | 0.8       | 10        | A        |
-| 2.1       | 1.5       | 15        | B        |
-| 3.4       | 2.3       | 20        | A        |
+| 1.2       | 0.8       | 10        |  value1  |
+| 2.1       | 1.5       | 15        |  value2  |
+| 3.4       | 2.3       | 20        |  value3  |
 
 ## 🔌 API Integration
 
@@ -222,9 +239,9 @@ The frontend expects a backend service with:
   "status": "success",
   "message": "Predictions generated successfully",
   "data": {
-    "predictions": [0.85, 0.92, 0.78, ...],
-    "num_predictions": 1000,
-    "processing_time_seconds": 0.234
+    "predictions": [123621, 334823, 321344, ...],
+    "num_predictions": 200,
+    "processing_time_seconds": 0.23
   }
 }
 ```
