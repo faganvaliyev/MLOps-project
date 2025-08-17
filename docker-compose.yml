@@ -31,6 +31,7 @@ services:
     ports:
       - "8501:8501"
 
+
 volumes:
   backend_venv:
   frontend_venv:
