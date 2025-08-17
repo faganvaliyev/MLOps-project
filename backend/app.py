@@ -16,8 +16,8 @@ BAKU_TZ = timezone(timedelta(hours=4))
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="FastAPI Backend server for ML project",
-    description="REST API for ML project",
+    title="FastAPI Backend server for Sales Prediction Project",
+    description="REST API for Sales Prediction Project",
     version="1.0.0",
     docs_url="/docs",
 )
@@ -30,6 +30,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+def root() -> Dict[str, Any]:
+    return{
+        "message": "Welcome to dm_office_sales prediction API. Go to /docs to use the API"
+    }
 
 
 @app.get("/health")
