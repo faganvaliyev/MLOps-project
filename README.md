@@ -30,7 +30,7 @@ This repository demonstrates a complete MLOps project developed for the DM Offic
 1. **Clone the repository**
    ```bash
    git clone https://github.com/faganvaliyev/MLOps-project.git
-   cd MLOps_example
+   cd MLOps-project
    ```
 
 2. **Launch services with Docker Compose**
